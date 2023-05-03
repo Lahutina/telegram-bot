@@ -14,13 +14,12 @@ import java.util.TimerTask;
 
 @Component
 public class SendDailyMessages extends TelegramLongPollingBot {
-    private final DateService dateService;
     @Value("${telegram.bot.token}")
     private String token;
     @Value("${telegram.bot.username}")
     private String username;
-
     private Long userId;
+    private final DateService dateService;
 
     SendDailyMessages(DateService dateService) {
         this.dateService = dateService;
@@ -35,7 +34,7 @@ public class SendDailyMessages extends TelegramLongPollingBot {
             SendMessage sendMessage = SendMessage.builder()
                     .chatId(userId.toString())
                     .text(String.format("Привіт, %s. Сповіщення надсилатимуться щодня о 12:00",
-                                    update.getMessage().getFrom().getUserName()))
+                            update.getMessage().getFrom().getUserName()))
                     .build();
 
             try {
@@ -72,7 +71,7 @@ public class SendDailyMessages extends TelegramLongPollingBot {
         return token;
     }
 
-//    @Scheduled(cron = "0 0 12 * * *")
+    //    @Scheduled(cron = "0 0 12 * * *")
     public void sendDailyMessage() {
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(userId.toString())
