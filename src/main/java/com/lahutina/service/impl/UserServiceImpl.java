@@ -1,21 +1,23 @@
 package com.lahutina.service.impl;
 
 import com.lahutina.model.User;
+import com.lahutina.repository.UserRepository;
 import com.lahutina.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final List<User> users = new ArrayList<>();
+
+    private final UserRepository userRepository;
 
     @Override
-    public User readUser(Long chatId) {
-        return users.stream()
-                .filter(u-> u.getUserId().equals(chatId))
-                .findFirst().orElse(null);
+    public Optional<User> readUser(Long chatId) {
+        return userRepository.findById(chatId);
     }
 
     @Override
@@ -23,11 +25,10 @@ public class UserServiceImpl implements UserService {
         if (user == null)
             return null;
 
-        boolean isPresent = users.stream()
-                .anyMatch(u -> u.getUserId().equals(user.getUserId()));
+        boolean isPresent = userRepository.existsById(user.getUserId());
+
         if (!isPresent) {
-            users.add(user);
-            return user;
+            return userRepository.save(user);
         } else return null;
     }
 
@@ -35,13 +36,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(User user) {
         if (user != null)
-            users.remove(user);
+            userRepository.delete(user);
     }
 
     @Override
     public List<User> readAllUsers() {
-        if(users.isEmpty())
-            return null;
-        return users;
+        return userRepository.findAll();
     }
 }

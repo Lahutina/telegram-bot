@@ -35,7 +35,7 @@ public class SendDailyMessages extends TelegramLongPollingBot {
             Long chatId = update.getMessage().getChatId();
             String username = update.getMessage().getFrom().getUserName();
 
-            User user = userService.readUser(chatId);
+            User user = userService.readUser(chatId).orElse(null);
 
             if (user == null) {
                 userService.addUser(new User(chatId, username, true));
