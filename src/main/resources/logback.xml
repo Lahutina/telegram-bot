@@ -20,6 +20,18 @@
         </encoder>
     </appender>
 
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %p %c{1.} [%t] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE-ROLLING" />
+    </root>
+
+
     <logger name="io.proj3ct.SpringDemoBot" level="debug" additivity="false">
         <appender-ref ref="FILE-ROLLING"/>
     </logger>

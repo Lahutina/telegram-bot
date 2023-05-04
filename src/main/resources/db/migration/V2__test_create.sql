@@ -1,0 +1,1 @@
+insert into users(is_enabled, user_name, user_id) values(true, 'FirstUser', 1)
