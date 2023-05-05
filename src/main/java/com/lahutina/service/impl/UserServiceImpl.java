@@ -40,7 +40,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void setStatus(Long userId, boolean status) {
+        Optional<User> user = userRepository.findById(userId);
+        user.ifPresent(u -> {
+            u.setEnabled(status);
+            userRepository.save(u);
+        });
+    }
+
+    @Override
     public List<User> readAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> readAllEnabledUsers() {
+        return userRepository.findAllEnabled();
     }
 }

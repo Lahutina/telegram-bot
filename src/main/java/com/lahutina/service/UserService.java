@@ -13,4 +13,8 @@ public interface UserService {
     List<User> readAllUsers();
 
     void deleteUser(User user);
+
+    void setStatus(Long userId, boolean status);
+
+    List<User> readAllEnabledUsers();
 }
